@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>imgur</title>
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/0e3d6c2c8d.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="topDiv">
+      <div id="nav_div">
+        <div id="nav_div_left">
+          <img class="site_logo" src="images/imgurLogo.png" alt="" />
+          <button class="btn new_post" id="createNewPost">
+            <img
+              src="https://s.imgur.com/desktop-assets/desktop-assets/icon-new-post.13ab64f9f36ad8f25ae3544b350e2ae1.svg"
+              alt=""
+              class="new_post_img"
+            />
+            <span class="new_post_logo"> New Post</span>
+          </button>
+        </div>
+
+        <div id="nav_middle">
+          <input
+            type="text"
+            class="nav_search_box"
+            id="queryInputBox"
+            placeholder="Images, #tags, @users oh my!"
+          />
+          <img src="images/searchIcon.svg" alt="" class="nav_searchIcon" />
+        </div>
+
+        <div id="nav_div_right">
+          <img src="images/certified.png" alt="" class="right_icon" />
+          <button class="btn blue_btn">Go Ad Free</button>
+          <button class="btn trans_btn">Sign in</button>
+          <button class="btn">Sign up</button>
+        </div>
+      </div>
+
+      <!-- // debouncing data showing div  -->
+      <div id="debounce_blank_div"></div>
+
+      <!-- // debouncing data showing div  close -->
+
+      <div id="message_div">
+        <h2 class="content_div">
+          Life is short. Smile while you still have teeth.
+        </h2>
+      </div>
+
+      <div id="tag_div">
+        <div id="head_tag_div">
+          <h2 class="head_tag_div_con">explore tags</h2>
+
+          <h2 class="head_tag_div_con">more tags+</h2>
+        </div>
+
+        <div id="tag_div_img"></div>
+      </div>
+    </div>
+
+    <div id="postsDiv">
+      <div id="postNavbar">
+        <div class="left_post_nav">
+          <h3 class="left_post_nav_header" id="leftSortHeader">
+            most viral &nbsp;&nbsp; ⯆
+          </h3>
+          <ul class="left_post_option" id="left_post_option">
+            <li
+              class="left_post_item"
+              id="mostViral"
+              onClick="option_title('most viral')"
+            >
+              most viral
+            </li>
+            <li
+              class="left_post_item"
+              id="userSubmitted"
+              onClick="option_title('user submitted')"
+            >
+              User Submitted
+            </li>
+            <li
+              class="left_post_item"
+              id="highestScoring"
+              onClick="option_title('highest scoring')"
+            >
+              Highest Scoring
+            </li>
+          </ul>
+        </div>
+
+        <div class="right_post_nav">
+          <div class="right_post_nav_div">
+            <h3 class="right_post_nav_head" id="rightSortHeader">
+              newest &nbsp;&nbsp; ⯆
+            </h3>
+            <ul class="right_post_nav_option" id="right_post_nav_option">
+              <li
+                class="right_post_item"
+                id="mostViral"
+                onClick="rightPostOption('newest')"
+              >
+                Newest
+              </li>
+              <li
+                class="right_post_item"
+                id="userSubmitted"
+                onClick="rightPostOption('popular')"
+              >
+                popular
+              </li>
+              <li
+                class="right_post_item"
+                id="highestScoring"
+                onClick="rightPostOption('best')"
+              >
+                best
+              </li>
+              <li
+                class="right_post_item"
+                id="highestScoring"
+                onClick="rightPostOption('random')"
+              >
+                random
+              </li>
+            </ul>
+          </div>
+
+          <img
+            class="filter_icon filter_icon--first"
+            src="https://s.imgur.com/desktop-assets/desktop-assets/icon-filter.551faed00bcf04e07c9e01a6874bd652.svg"
+            alt=""
+          />
+
+          <!-- // autoplay toggle  -->
+          <img
+            id="autoplay"
+            style="display: block"
+            class="filter_icon"
+            src="https://s.imgur.com/desktop-assets/desktop-assets/icon-pause.68f07ce1a7e07bac06d1f2c527d7a9e5.svg"
+            alt=""
+          />
+          <img
+            id="autoplayFalse"
+            style="display: none"
+            class="filter_icon"
+            src="https://s.imgur.com/desktop-assets/desktop-assets/icon-play.ee96845e31b168ed3901cb039f60db85.svg"
+            alt=""
+          />
+
+          <!-- layout toggle  -->
+          <img
+            id="waterfallDesign"
+            style="display: block"
+            class="filter_icon"
+            src="images/waterfall.png"
+            alt=""
+          />
+          <img
+            id="gridDesign"
+            class="filter_icon"
+            style="display: none"
+            src="images/gridDesign.png"
+            alt=""
+          />
+        </div>
+      </div>
+      <div id="all_data_show"></div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
+
+<script>
+  let tagContent = [
+    {
+      image: "images/tagImg1.png",
+      title: "Space",
+      content: "FEATURED 28,291 posts",
+      divNo: 1,
+      colorIs: "darkslategray",
+    },
+    {
+      image: "images/tagImg2.jpg",
+      title: "Imgur13",
+      content: "7,842 posts",
+      divNo: 2,
+      colorIs: "darkslateblue",
+    },
+    {
+      image: "images/tagImg3.jpg",
+      title: "Vintage",
+      content: "8,926 posts",
+      divNo: 3,
+      colorIs: "seagreen",
+    },
+    {
+      image: "images/tagImg4.jpg",
+      title: "Pokemon",
+      content: "52,584 posts",
+      divNo: 4,
+      colorIs: "indianred",
+    },
+    {
+      image: "images/tagImg5.jpg",
+      title: "Black History Month",
+      content: "184 posts",
+      divNo: 5,
+      colorIs: "#328d67",
+    },
+    {
+      image: "images/tagImg6.jpg",
+      title: "Science And Tech",
+      content: "44,943 posts",
+      divNo: 6,
+      colorIs: "#e47d57",
+    },
+    {
+      image: "images/tagImg7.jpg",
+      title: "Staff Picks",
+      content: "6,536 posts",
+      divNo: 7,
+      colorIs: "#132d31",
+    },
+    {
+      image: "images/tagImg8.jpg",
+      title: "Gaming",
+      content: "298,228 posts",
+      divNo: 8,
+      colorIs: "#2b1a5a",
+    },
+    {
+      image: "images/tagImg9.jpg",
+      title: "Memes",
+      content: "571,088 posts",
+      divNo: 9,
+      colorIs: "#ba519f",
+    },
+    {
+      image: "images/tagImg10.jpg",
+      title: "OC",
+      content: "39,274 posts",
+      divNo: 10,
+      colorIs: "#ab80b8",
+    },
+  ];
+
+  let data = [];
+
+  async function fetchData(url) {
+    await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Client-ID 72ebaa80e0288fb",
+      },
+    })
+      .then(async (response) => {
+        const res = await response.json();
+
+        data = res.data;
+
+        showData(data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  // clientID: 72ebaa80e0288fb
+  // clientSecret: a1aba82b2105a9b9634d1e446c1502e6cc41ad33
+
+  let url = "https://api.imgur.com/3/gallery/hot/viral/";
+  fetchData(url);
+
+  //show data
+  function showData(data) {
+    let postDivContainer = document.getElementById("all_data_show");
+    postDivContainer.innerHTML = null;
+
+    // grid design starts
+    let gridDeisgn = document.getElementById("waterfallDesign").style.display;
+
+    // autoplay start
+    let autoPlayIs = document.getElementById("autoplay").style.display;
+    console.log("autoPlayIs:", autoPlayIs);
+
+    if (gridDeisgn == "block") {
+      postDivContainer.className = "all_data_show__waterfall";
+    } else {
+      postDivContainer.className = "all_data_show__grid";
+    }
+
+    data.forEach((item) => {
+      let postBodyDiv = document.createElement("div");
+
+      if (gridDeisgn == "block") {
+        postBodyDiv.className = `item`;
+      } else {
+        postBodyDiv.className = `all_data_show__itemDiv`;
+      }
+
+      let postTextDiv = document.createElement("div");
+      if (gridDeisgn == "block") {
+        postTextDiv.className = `waterfall`;
+      } else {
+        postTextDiv.className = `all_item_show_grid`;
+      }
+
+      //post title div
+      let postTitle = document.createElement("h2");
+      postTitle.className = `all_item_show_title`;
+      postTitle.textContent = item.title;
+
+      // postdata div
+      let postDataFlexDiv = document.createElement("div");
+      postDataFlexDiv.className = `all_item_show_post`;
+
+      //left side of post data
+      let postDataLeftDiv = document.createElement("div");
+      postDataLeftDiv.className = `all_item_show_postcontent`;
+      let leftPostData = document.createElement("span");
+      leftPostData.innerHTML = `⬆ ${item.score} ⬇`;
+
+      //middle data div
+      let middleData = document.createElement("h3");
+      middleData.className = `all_item_show`;
+      middleData.textContent = `🗨 ${item.comment_count}`;
+
+      //right Data
+      let rightData = document.createElement("h3");
+      rightData.className = `all_item_show`;
+      rightData.textContent = `👁 ${item.views}`;
+
+      postDataLeftDiv.append(leftPostData);
+
+      // append in postdata div
+      postDataFlexDiv.append(postDataLeftDiv, middleData, rightData);
+
+      // post text content div
+      postTextDiv.append(postTitle, postDataFlexDiv);
+
+      postBodyDiv.append(postTextDiv);
+
+      if (item.images) {
+        let extension = item.images[0].link.split(".")[3];
+
+        if (extension == "mp4") {
+          let video = document.createElement("video");
+          video.src = item.images[0].link;
+
+          if (autoPlayIs == "block") {
+            video.autoplay = true;
+          } else {
+            video.autoplay = false;
+          }
+
+          video.muted = true;
+
+          if (gridDeisgn == "block") {
+            video.className = `waterfall_img`;
+          } else {
+            video.className = `all_item_show_img_grid`;
+          }
+
+          postBodyDiv.append(video);
+        } else {
+          let img = document.createElement("img");
+          if (gridDeisgn == "block") {
+            img.className = `waterfall_img`;
+          } else {
+            img.className = `all_item_show_img_grid`;
+          }
+          img.src = item.images[0].link;
+          img.alt = "imgur";
+          postBodyDiv.append(img);
+        }
+
+        postDivContainer.append(postBodyDiv);
+      }
+    });
+  }
+
+  // tag show div
+  tagContent.forEach((item) => {
+    let tagDivContainer = document.getElementById("tag_div_img");
+
+    let commonTagDiv = document.createElement("div");
+    commonTagDiv.addEventListener("mouseover", () => {
+      commonTagDiv.style.margin = "-6px 6px 0";
+    });
+    commonTagDiv.addEventListener("mouseout", () => {
+      commonTagDiv.style.margin = "6px 6px 0";
+    });
+
+    commonTagDiv.className = `common_tag tag_div_img--tag${item.divNo}Div`;
+
+    let tagImageDiv = document.createElement("div");
+    tagImageDiv.className = `tag_image_div tag_image_div--tag${item.divNo}`;
+    tagImageDiv.style.backgroundImage = `url(${item.image})`;
+
+    let tagContentDiv = document.createElement("div");
+    tagContentDiv.className = `tag_image_div_com tag_image_div_com--tag${item.divNo}`;
+    tagContentDiv.style.backgroundColor = item.colorIs;
+
+    let tagContent1 = document.createElement("p");
+    tagContent1.className = `tag_image_div1`;
+    tagContent1.textContent = item.title;
+
+    let tagContent2 = document.createElement("p");
+    tagContent2.className = `tag_image_div2`;
+    tagContent2.textContent = item.content;
+
+    tagContentDiv.append(tagContent1, tagContent2);
+
+    commonTagDiv.append(tagImageDiv, tagContentDiv);
+
+    tagDivContainer.append(commonTagDiv);
+  });
+
+  // on scroll style
+
+  let topDiv = document.getElementById("topDiv");
+  window.onscroll = () => {
+    let windowScrollY = window.scrollY;
+    if (windowScrollY > 312) {
+      document.getElementById("nav_div").style.position = "relative";
+      document.getElementById("postNavbar").style.position = "fixed";
+      document.getElementById("postNavbar").style.top = 0;
+      document.getElementById("postNavbar").style.backgroundColor = "#2e3035";
+      document.getElementById("postNavbar").style.zIndex = 15;
+    } else {
+      document.getElementById("nav_div").style.position = "fixed";
+      document.getElementById("postNavbar").style.position = "relative";
+      document.getElementById("postNavbar").style.backgroundColor =
+        "transparent";
+    }
+  };
+
+  // input styling
+  //left side
+  document
+    .getElementById("leftSortHeader")
+    .addEventListener("click", function () {
+      let val = document.getElementById("left_post_option").style.display;
+      document.getElementById("left_post_option").style.display = "block";
+      if (val === "block") {
+        document.getElementById("left_post_option").style.display = "none";
+      }
+    });
+
+  function option_title(sortTitle) {
+    document.getElementById(
+      "leftSortHeader"
+    ).textContent = `${sortTitle} \u00A0\u00A0 ⯆`;
+    document.getElementById("left_post_option").style.display = "none";
+
+    if (sortTitle === "most viral") {
+      let url = "https://api.imgur.com/3/gallery/hot/viral/";
+      fetchData(url);
+    } else if (sortTitle === "highest scoring") {
+      let url = "https://api.imgur.com/3/gallery/top/top/";
+      fetchData(url);
+    } else if (sortTitle === "user submitted") {
+      let url = "https://api.imgur.com/3/gallery/user/rising/";
+      fetchData(url);
+    }
+  }
+
+  //right side
+  document
+    .getElementById("rightSortHeader")
+    .addEventListener("click", function () {
+      let val = document.getElementById("right_post_nav_option").style.display;
+      document.getElementById("right_post_nav_option").style.display = "block";
+      if (val === "block") {
+        document.getElementById("right_post_nav_option").style.display = "none";
+      }
+    });
+
+  function rightPostOption(sortTitle) {
+    document.getElementById(
+      "rightSortHeader"
+    ).textContent = `${sortTitle} \u00A0\u00A0 ⯆`;
+    document.getElementById("right_post_nav_option").style.display = "none";
+
+    if (sortTitle === "newest") {
+      let url = "https://api.imgur.com/3/gallery/hot/time/";
+      fetchData(url);
+    } else if (sortTitle === "popular") {
+      let url = "https://api.imgur.com/3/gallery/top/viral/";
+      fetchData(url);
+    } else if (sortTitle === "best") {
+      let url = "https://api.imgur.com/3/gallery/top/top/";
+      fetchData(url);
+    } else {
+      let urls = [
+        "https://api.imgur.com/3/gallery/hot/time/",
+        "https://api.imgur.com/3/gallery/top/viral/",
+        "https://api.imgur.com/3/gallery/top/top/",
+        "https://api.imgur.com/3/gallery/user/rising/",
+      ];
+
+      let num = Math.floor(Math.random() * 4);
+      let url = urls[num];
+      fetchData(url);
+    }
+  }
+
+  //debouncing section
+  let queryInputBox = document.getElementById("queryInputBox");
+  queryInputBox.onchange = debounceData;
+
+  let id;
+
+  function debounceData() {
+    clearTimeout(id);
+    id = setTimeout(async () => {
+      let queryIs = queryInputBox.value;
+      let queryUrl = `https://api.imgur.com/3/gallery/search?q=${queryIs}`;
+
+      await fetch(queryUrl, {
+        method: "GET",
+        headers: {
+          Authorization: "Client-ID 72ebaa80e0288fb",
+        },
+      })
+        .then(async (response) => {
+          const res = await response.json();
+
+          data = res.data;
+
+          data.splice(9, data.length);
+          console.log("data:", data);
+
+          showDebounceData(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }, 1000);
+  }
+
+  function showDebounceData(data) {
+    let debounceDiv = document.getElementById("debounce_blank_div");
+    debounceDiv.style.display = "block";
+
+    data.forEach((item) => {
+      let queryResult = document.createElement("p");
+      queryResult.className = "queryResultItem";
+      queryResult.textContent = item.title;
+
+      queryResult.addEventListener("click", () => {
+        window.location.href = item.link;
+      });
+
+      let br = document.createElement("br");
+
+      debounceDiv.append(queryResult, br);
+    });
+  }
+
+  document.getElementById("createNewPost").addEventListener("click", () => {
+    window.location.href = "secondPage.html";
+  });
+
+  // layout toggle
+
+  document.getElementById("waterfallDesign").addEventListener("click", () => {
+    document.getElementById("waterfallDesign").style.display = "none";
+    document.getElementById("gridDesign").style.display = "block";
+    showData(data);
+  });
+
+  document.getElementById("gridDesign").addEventListener("click", () => {
+    document.getElementById("waterfallDesign").style.display = "block";
+    document.getElementById("gridDesign").style.display = "none";
+    showData(data);
+  });
+
+  // autoplay toggle
+
+  document.getElementById("autoplay").addEventListener("click", () => {
+    document.getElementById("autoplay").style.display = "none";
+    document.getElementById("autoplayFalse").style.display = "block";
+    showData(data);
+  });
+
+  document.getElementById("autoplayFalse").addEventListener("click", () => {
+    document.getElementById("autoplay").style.display = "block";
+    document.getElementById("autoplayFalse").style.display = "none";
+    showData(data);
+  });
+</script>
+
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    font-family: Proxima Nova ExtraBold, Helvetica Neue, Helvetica, Arial,
+      sans-serif;
+    background-color: #2e3035;
+  }
+  #topDiv {
+    background-image: url("images/homebg.png");
+    width: 98vw;
+    height: 25vw;
+    padding: 1.3vw;
+  }
+  #nav_div {
+    display: flex;
+    justify-content: space-between;
+    width: 96vw;
+  }
+  #nav_div_left {
+    display: flex;
+    justify-content: space-between;
+    width: 15vw;
+  }
+
+  .site_logo {
+    height: 2vw;
+    width: 6vw;
+  }
+  .new_post {
+    display: flex;
+    justify-content: space-evenly;
+    width: 6vw;
+    height: 2vw;
+    align-content: center;
+    position: relative;
+  }
+  .new_post_img {
+    height: 1.4vw;
+    height: 1.4vw;
+    position: absolute;
+  }
+  .new_post_logo {
+    color: white;
+    margin-left: 2vw;
+  }
+  .btn {
+    text-align: center;
+    height: 2.3vw;
+    display: inline-block;
+    padding: 0.5vw 1.4vw 0.5vw 0.7vw;
+    text-transform: none;
+    user-select: none;
+    touch-action: manipulation;
+    border-radius: 3px;
+    font-size: 1vw;
+    font-weight: 700;
+    position: relative;
+    width: auto;
+    background-color: #1bb76e;
+    box-shadow: 0 6px 10px 0 rgb(27 28 30 / 31%);
+    color: #fff;
+    white-space: nowrap;
+    font-family: Proxima Nova ExtraBold, Helvetica Neue, Helvetica, Arial,
+      sans-serif;
+  }
+  #nav_middle {
+    width: 35vw;
+    height: 2vw;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    align-items: center;
+    margin-left: 6vw;
+  }
+  .nav_search_box {
+    background: hsla(0, 0%, 100%, 0.25);
+    border: 1px solid transparent;
+    padding: 0.5vw 1.4vw 0.5vw 0.7vw;
+    border-radius: 3px;
+    width: 100%;
+    outline: 0 none;
+    opacity: 0.8;
+    min-height: 1.4vw;
+    font-size: 1vw;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: #fff;
+    text-shadow: inherit;
+    -webkit-text-fill-color: inherit;
+  }
+  .nav_search_box:focus {
+    opacity: 1;
+  }
+  .nav_searchIcon {
+    height: 1.4vw;
+    margin-left: -2vw;
+  }
+  #nav_div_right {
+    display: flex;
+    justify-content: space-between;
+    width: 22vw;
+    align-items: center;
+    font-family: Proxima Nova ExtraBold, Helvetica Neue, Helvetica, Arial,
+      sans-serif;
+  }
+  .blue_btn {
+    background-color: blueviolet;
+  }
+  .trans_btn {
+    background: transparent;
+    border: none;
+  }
+  .trans_btn:focus {
+    outline: none;
+  }
+  .right_icon {
+    height: 1.8vw;
+  }
+
+  #debounce_blank_div {
+    min-height: 33vw;
+    width: 36vw;
+    background-color: #53565d;
+    margin: 3vw 0 0 30vw;
+    position: absolute;
+    z-index: 15;
+    display: none;
+  }
+  .queryResultItem {
+    color: white;
+    font-weight: 500;
+    padding: 0.5vw;
+    text-decoration: none;
+    margin: 0;
+  }
+
+  #message_div {
+    text-align: center;
+    margin-top: 2vw;
+  }
+  .content_div {
+    font-size: 1.5vw;
+    letter-spacing: 0.6px;
+    color: #aed8ea;
+    text-align: center;
+    margin-top: 5vw;
+    min-height: 2.2vw;
+    position: relative;
+  }
+  #tag_div {
+    width: 86vw;
+    height: auto;
+    margin-left: 6vw;
+    text-align: center;
+  }
+  #head_tag_div {
+    height: 3vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0.7;
+    font-size: 0.8vw;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 1.3px;
+    text-align: left;
+    color: #fff;
+    text-transform: uppercase;
+    width: 100%;
+  }
+  #tag_div_img {
+    height: 8vw;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .common_tag {
+    height: 100%;
+    margin: 6px 6px 0;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    width: 7vw;
+    transition: all 1s;
+  }
+  .common_tag:hover {
+    margin: 6px 6px 10px;
+  }
+
+  .tag_image_div {
+    height: 5vw;
+    width: 100%;
+    background-size: cover;
+  }
+  .tag_image_div_com {
+    min-height: 50%;
+    width: 100%;
+    text-align: center;
+  }
+  .tag_image_div1 {
+    font-size: 14px;
+    letter-spacing: 1.4px;
+    color: #fff;
+    text-transform: capitalize;
+    word-break: break-word;
+  }
+  .tag_image_div2 {
+    font-size: 11px;
+    line-height: 0;
+    letter-spacing: 0.4px;
+    color: hsla(0, 0%, 100%, 0.5);
+    margin-top: -6px;
+  }
+
+  /* // customize style  */
+
+  .tag_div_img--tag1Div {
+    width: 17vw;
+  }
+
+  /* // post body  */
+
+  #postsDiv {
+    width: 100vw;
+    margin-left: 7vw;
+    margin-top: -4vw;
+  }
+
+  #postNavbar {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+    margin-left: -7vw;
+    padding: 0 7vw;
+  }
+  .right_post_nav {
+    display: flex;
+    width: 20vw;
+    justify-content: space-between;
+  }
+  .left_post_nav,
+  .right_post_nav_div {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .filter_icon {
+    height: 2vw;
+    width: 2vw;
+    margin-top: 1vw;
+  }
+
+  .left_post_nav_header,
+  .right_post_nav_head {
+    text-transform: uppercase;
+    color: #b4b9c2;
+    cursor: pointer;
+    display: block;
+    line-height: 2.14;
+    letter-spacing: 1px;
+    width: auto;
+    padding-left: 18px;
+    padding-right: 26px;
+    text-align: left;
+    font-weight: 700;
+    border: none;
+    font-size: 1vw;
+  }
+  .left_post_option,
+  .right_post_nav_option {
+    position: absolute;
+    margin-top: 3.5vw;
+    height: auto;
+    width: 11vw;
+    background-color: #53565d;
+    z-index: 11;
+    border-radius: 10px;
+    padding-bottom: 1vw;
+  }
+  .left_post_item,
+  .right_post_item {
+    list-style: none;
+    text-transform: uppercase;
+    color: #ffffff;
+    cursor: pointer;
+    display: block;
+    line-height: 2.14;
+    letter-spacing: 1px;
+    width: auto;
+    text-align: left;
+    font-weight: 700;
+    border: none;
+    font-size: 1vw;
+    margin-left: -1.2vw;
+  }
+  #left_post_option,
+  #right_post_nav_option {
+    display: none;
+  }
+
+  /* // uplaod page  */
+  #uploadDiv {
+    padding: 1vw;
+  }
+  .uploadDiv__Navbar {
+    display: flex;
+    justify-content: space-between;
+  }
+  .upload_main {
+    display: flex;
+    height: 20vw;
+    width: 60vw;
+    margin: auto;
+    margin-top: 20vh;
+  }
+  .upload_div_right {
+    background-image: url("https://s.imgur.com/desktop-assets/desktop-assets/observatory.37a3b3e2caf6c28c1acb92bdcf508402.svg"),
+      linear-gradient(45deg, #df9f52, #354679);
+    height: 20vw;
+    width: 30vw;
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    display: flex;
+    align-items: center;
+  }
+  .upload_right {
+    background-color: #3c424b;
+    height: 20vw;
+    width: 30vw;
+    color: white;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+  }
+  .upload_main__crossImage {
+    position: absolute;
+    height: 5vw;
+    margin: -2vw 0 0 57vw;
+  }
+  .upload_div_content {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    width: 16vw;
+    margin: 0 auto;
+    height: 4.4vw;
+    align-items: center;
+    border: 3px dashed hsla(0, 0%, 100%, 0.4);
+    border-radius: 6px;
+    line-height: 40px;
+    color: #fff;
+  }
+  .upload_div_text {
+    display: flex;
+    align-items: center;
+  }
+  .upload_camera {
+    height: 3vw;
+  }
+  .upload_div_con {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .simpleLine {
+    width: 3vw;
+    border-bottom: 0.4px solid grey;
+    margin: 0 8px;
+  }
+  .upload_div {
+    border-radius: 3px;
+    text-align: center;
+    background-color: #272a33;
+    border: unset;
+    outline: unset;
+    font-family: Proxima Nova Bold, Helvetica Neue, Helvetica, Arial, sans-serif;
+    border: 1px solid rgba(200, 191, 255, 0);
+    width: 18vw;
+    padding: 0.7vw 0;
+  }
+  .upload_rightContent {
+    min-height: 16vw;
+    width: 18vw;
+    margin-left: 6vw;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .upload_div_bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1vw;
+  }
+  .bottom_right_img {
+    height: 2vw;
+  }
+  .bottom_right_text {
+    font-size: 0.8vw;
+  }
+  .termCondition {
+    justify-content: center;
+    padding: 12px 0;
+    color: #fff;
+    font-size: 12px;
+    line-height: 17px;
+    text-align: center;
+  }
+  .termCondition span {
+    color: rgb(1, 126, 1);
+  }
+
+  /* /// waterfall layout */
+
+  .all_data_show__waterfall {
+    column-count: 5;
+    column-gap: 0;
+    width: 88vw;
+    margin-top: 4vw;
+  }
+
+  .item {
+    padding: 2px;
+    position: relative;
+    counter-increment: count;
+    display: flex;
+  }
+
+  .waterfall_img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .item::after {
+    position: absolute;
+    display: block;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    line-height: 24px;
+    background-color: #000;
+    color: #fff;
+  }
+  .waterfall {
+    z-index: 11;
+    position: absolute;
+    height: 5vw;
+    width: 17.3vw;
+    background-color: #53565d;
+    text-align: center;
+    align-self: flex-end;
+  }
+
+  /* grid design  */
+  .all_data_show__grid {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-auto-columns: max-content;
+    position: relative;
+    width: 88vw;
+    margin-top: 4vw;
+  }
+  .all_data_show__itemDiv {
+    width: 17vw;
+    height: 15vw;
+    overflow: hidden;
+    margin-bottom: 2vw;
+    display: flex;
+  }
+  .all_item_show_img_grid {
+    width: 16vw;
+    height: 15vw;
+    right: 0;
+    bottom: 0;
+  }
+
+  .all_item_show_grid {
+    z-index: 11;
+    position: absolute;
+    height: 5vw;
+    width: 16.1vw;
+    background-color: #53565d;
+    text-align: center;
+    align-self: flex-end;
+  }
+  .all_item_show_title {
+    font-weight: 600;
+    line-height: 1.14;
+    font-size: 0.9vw;
+    color: #fff;
+    max-height: 2vw;
+    overflow: hidden;
+  }
+  .all_item_show_post {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1vw;
+    color: white;
+    align-items: center;
+    margin-top: -1vw;
+  }
+
+  .all_item_show {
+    font-size: 1vw;
+    color: #fff;
+    font-weight: 500;
+  }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>upload image</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body style="background-color: #17191f; background-size: cover">
+    <div id="uploadDiv">
+      <div class="uploadDiv__Navbar">
+        <img class="site_logo" src="images/imgurLogo.png" alt="" />
+        <div id="nav_div_right">
+          <img src="images/certified.png" alt="" class="right_icon" />
+          <button class="btn blue_btn">Go Ad Free</button>
+          <button class="btn trans_btn">Sign in</button>
+          <button class="btn">Sign up</button>
+        </div>
+      </div>
+
+      <div class="upload_main">
+        <div class="upload_div_right">
+          <h3 class="upload_div_content">Drop images here</h3>
+        </div>
+        <div class="upload_right">
+          <div class="upload_rightContent">
+            <div class="upload_div_text">
+              <img
+                class="upload_camera"
+                src="https://s.imgur.com/desktop-assets/desktop-assets/icon-photo.1ded6245836b46ed24022036f33a84e8.svg"
+                alt=""
+              />
+              &nbsp;&nbsp; Choose Photo or Video
+            </div>
+
+            <div class="upload_div_con">
+              <p class="simpleLine"></p>
+              or
+              <p class="simpleLine"></p>
+            </div>
+            <div class="upload_div">Paste Image or URL</div>
+
+            <div class="upload_div_bottom">
+              <div class="bottom_right">
+                <img
+                  class="bottom_right_img"
+                  src="https://s.imgur.com/desktop-assets/desktop-assets/meme.d410b11bc6ba72ecb8b3992971fba0a8.svg"
+                  alt=""
+                />
+                <p class="bottom_right_text">Meme Gen</p>
+              </div>
+              <div class="upload_div_bottom__middle">
+                <img
+                  class="bottom_right_img"
+                  src="https://s.imgur.com/desktop-assets/desktop-assets/vid2gif.30286dc6c4e6d0c822073e0228dc3a4f.svg"
+                  alt=""
+                />
+                <p class="bottom_right_text">Video to Gif</p>
+              </div>
+              <div class="upload_div_bottom__right">
+                <img
+                  class="bottom_right_img"
+                  src="https://s.imgur.com/desktop-assets/desktop-assets/browse.fcd082e3eb7f93767b2b9edb7b3f1c2a.svg"
+                  alt=""
+                />
+                <p class="bottom_right_text">My Uploads</p>
+              </div>
+            </div>
+
+            <input type="file" name="" id="fileInput" class="fileInput" />
+          </div>
+        </div>
+        <img
+          class="upload_main__crossImage"
+          src="images/crossIcon.svg"
+          alt=""
+          onclick="closepage()"
+        />
+      </div>
+      <p class="termCondition">
+        By creating a post, you agree to Imgur's
+        <span>Terms of Service</span> and <span>Privacy Policy</span>
+      </p>
+    </div>
+  </body>
+</html>
+<script>
+  function closepage() {
+    window.location.href = "index.html";
+  }
+
+  // create new post
+
+  const file = document.getElementById("fileInput");
+
+  file.addEventListener("change", (el) => {
+    const uploadData = new FormData();
+    uploadData.append("image", el.target.files[0]);
+    fetch("https://api.imgur.com/3/image/", {
+      method: "post",
+      headers: {
+        Authorization: "Client-ID 72ebaa80e0288fb",
+      },
+      body: uploadData,
+    }).then(async (data) => {
+      let res = await data.json();
+      console.log("res:", res.data.link);
+      alert(`Your image is uploaded: get here ${res.data.link}`);
+      window.location.href = "/";
+    });
+  });
+</script>
